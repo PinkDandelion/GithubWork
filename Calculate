@@ -1,0 +1,164 @@
+package demo;
+import java.util.*;
+
+public class Calculate {
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        int num;
+        System.out.print("请输入出题数量：");
+        num=sc.nextInt();
+        String[] s = new String[100];
+        char[] ch = {'+','-','*','/'};
+        int ss = 0;
+        int a,b,a1,b1;
+        double A,B,A1,B1;
+        int k;
+        String str;
+        int flag=0;
+        //生成指定个数的题
+        for(int i=0;i<num;i++)
+        {
+            flag=randomType();
+            //如果flag都是1，表示整数与整数运算
+            if(flag==0)
+            {
+                a = createRandom();
+                b = createRandom();
+                k = createChar();
+                str = a + " " + ch[k] + " " + b + " = ";
+                if(judge(s,str,ss) != 1)
+                {
+                    s[ss] = str;
+                    System.out.print(s[ss]);
+                    A = (double)a;
+                    B = (double)b;
+                    display(A,B,k);
+                    ss ++;
+                }
+            }
+          //以下表示整数与分数运算
+            else if(flag==1)
+            {
+                a = createRandom();
+                b = createRandom();
+                b1 = createRandom()+1;
+                if(b>=b1)
+                {
+                    b1 = b1 + b;
+                }
+                k = createChar();
+                str = a + " " + ch[k] + " (" + b + "/" + b1 + ") = ";
+                //判断有没有重复的
+                if(judge(s,str,ss) != 1)
+                {
+                    s[ss] = str;
+                    System.out.print(s[ss]);
+                    A = (double)a;
+                    B = (double)b;
+                    B1 = (double)b1;
+                    display(A,B/B1,k);
+                    ss ++;
+                }
+            }
+            //以下表示分数与整数运算
+            else if(flag==2)
+            {
+                a = createRandom();
+                a1 = createRandom() + 1;
+                b = createRandom();
+                if(a > a1)
+                {
+                    a1 = a + a1;
+                }
+                k = createChar();
+                str = "(" + a + "/" + a1 + ") " + ch[k] + " " + b + " = ";
+                //判断是否重复
+                if(judge(s,str,ss) != 1)
+                {
+                    s[ss] = str;
+                    System.out.print(s[ss]);
+                    A = (double)a;
+                    A1 = (double)a1;
+                    B = (double)b;
+                    display(A/A1,B,k);
+                    ss ++;
+                }
+            }
+            //表示两个分数之间的运算
+            else
+            {
+                a = createRandom();
+                a1 = createRandom() + 1;
+                b = createRandom();
+                b1 = createRandom() + 1;
+                if(a > a1)
+                {
+                    a1 = a + a1;
+                }
+                if(b > b1)
+                {
+                    b1 = b + b1;
+                }
+                k = createChar();
+                str =  "(" + a + "/" + a1 + ") " + ch[k] + " " + b + "/" + b1 + " = ";
+                if(judge(s,str,ss) != 1)
+                {
+                    s[ss] = str;
+                    System.out.print(s[ss]);
+                    A = (double)a;
+                    A1 = (double)a1;
+                    B = (double)b;
+                    B1 = (double)b1;
+                    display(a/a1,b/b1,k);
+                    ss ++;
+                }
+            }    
+        }  
+    }
+    public static int createRandom()
+    {
+        int r;
+        r=(int)(Math.random()*100);
+        return r;
+    }
+    public static int createChar()
+    {
+        int c;
+        c=(int)(Math.random()*4);
+        return c;
+    }
+    public static int randomType()
+    {
+        int type=(int)(Math.random()*4);
+        return type;
+    }
+    public static int judge(String s[],String str,int n)
+    {
+        int flag=0;
+        for(int i = 0;i < n;i ++)
+        {
+            if(str.equals(s[n]))
+            {
+            	flag = 1;
+                break;
+            }
+        }
+        return flag;
+    }
+    public static void display(double a,double b,int t)
+    {
+        if(t==0){
+            System.out.println(a+b);
+        }
+        if(t==1){
+            System.out.println(a-b);
+        }
+        if(t==2){
+            System.out.println(a*b);
+        }
+        if(t==3){
+            System.out.println(a/b);
+        }
+    }
+}
